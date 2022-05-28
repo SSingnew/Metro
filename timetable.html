@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시간표</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/06fb83cb17.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://potato179.github.io/style/potato-min.css">
+    <style>
+        table, td, tr{
+            padding: 0.5em;
+        }
+    </style>
+</head>
+<body onload = "loadDoc()">
+    <br><br><br>
+    <div class = "container center">
+        <input type = "button" value = "인쇄하기" id = "print" onclick = "window.print()"/>
+        <h1 id = "title"></h1><br>
+        <div style = "float: left;">
+            <h2>상행</h2>
+            <table id = "upper"></table><br>
+        </div>
+        <div style = "float: right;">
+            <h2>하행</h2>
+            <table id = "lower"></table><br>
+        </div>
+    </div>
+    <script>
+        function loadDoc() {
+            temp = location.href.split("?");
+            data = temp[1].split("/");
+            fr_code = decodeURI(data[0]);
+            operator = decodeURI(data[1]);
+            line_num = decodeURI(data[2]);
+            if(decodeURI(data[1]) === "한국철도공사"){
+                if(decodeURI(data[2]) === "1호선"){
+                    operator = "KR";
+                    line_num = "1";
+                }
+                if(decodeURI(data[2]) === "3호선"){
+                    operator = "KR";
+                    line_num = "3";
+                }
+                if(decodeURI(data[2]) === "4호선"){
+                    operator = "KR";
+                    line_num = "4";
+                }
+                if(decodeURI(data[2]) === "수인분당선"){
+                    operator = "KR";
+                    line_num = "K1";
+                }
+                if(decodeURI(data[2]) === "경춘선"){
+                    operator = "KR";
+                    line_num = "K2";
+                }
+                if(decodeURI(data[2]) === "경의중앙선"){
+                    operator = "KR";
+                    line_num = "K4";
+                }
+                if(decodeURI(data[2]) === "경강선"){
+                    operator = "KR";
+                    line_num = "K5";
+                }
+                if(decodeURI(data[2]) === "서해선"){
+                    operator = "SW";
+                    line_num = "WS";
+                }
+            }   
+            if(decodeURI(data[1]) === "서울교통공사"){
+                if(decodeURI(data[2]) === "1호선"){
+                    operator = "S1";
+                    line_num = "1";
+                }
+                if(decodeURI(data[2]) === "2호선"){
+                    operator = "S1";
+                    line_num = "2";
+                }
+                if(decodeURI(data[2]) === "3호선"){
+                    operator = "S1";
+                    line_num = "3";
+                }
+                if(decodeURI(data[2]) === "4호선"){
+                    operator = "S1";
+                    line_num = "4";
+                }
+                if(decodeURI(data[2]) === "5호선"){
+                    operator = "S5";
+                    line_num = "5";
+                }
+                if(decodeURI(data[2]) === "6호선"){
+                    operator = "S5";
+                    line_num = "6";
+                }
+                if(decodeURI(data[2]) === "7호선"){
+                    operator = "S5";
+                    line_num = "7";
+                }
+                if(decodeURI(data[2]) === "8호선"){
+                    operator = "S5";
+                    line_num = "8";
+                }
+                if(decodeURI(data[2]) === "9호선"){
+                    operator = "S9";
+                    line_num = "9";
+                }
+            }   
+            if(decodeURI(data[1]) === "서울시메트로9호선"){
+                operator = "S9"
+                line_num = "9";
+            }   
+            if(decodeURI(data[1]) === "우이신설경전철 주식회사"){
+                operator = "UI"
+                line_num = "UI";
+            }   
+            if(decodeURI(data[1]) === "주식회사 우진메트로"){
+                operator = "UL"
+                line_num = "U1";
+            }   
+            if(decodeURI(data[1]) === "공항철도"){
+                operator = "AR"
+                line_num = "A1";
+            }   
+            if(decodeURI(data[1]) === "신분당선주식회사"){
+                operator = "DX"
+                line_num = "D1";
+            }   
+            if(decodeURI(data[1]) === "용인경량전철주식회사"){
+                operator = "EV"
+                line_num = "E1";
+            }   
+            if(decodeURI(data[1]) === "김포골드라인운영"){
+                operator = "GM"
+                line_num = "G1";
+            }   
+            if(decodeURI(data[1]) === "인천교통공사"){
+                if(decodeURI(data[2]) === "인천1호선"){
+                    operator = "IC";
+                    line_num = "I1";
+                }
+                if(decodeURI(data[2]) === "인천2호선"){
+                    operator = "IC";
+                    line_num = "I2";
+                }
+            }   
+
+            let date = new Date();   
+            let day = date.getDay(); 
+            let dayCd;
+            if(day == 0){
+                dayCd = 9;
+            } 
+            else if(day == 6){
+                dayCd = 7;
+            }
+            else{
+                dayCd = 8;
+            }
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    myFunction(this);
+                }
+            };
+            xhttp.open("GET", `http://openapi.kric.go.kr/openapi/convenientInfo/stationTimetable?serviceKey=$2a$10$c7RRD1KpGe4Z6e1qtKqO6OKfFRkS7NOBKTCERY2m/1Gpx1mv8p8ui&format=xml&railOprIsttCd=${operator}&lnCd=${line_num}&stinCd=${fr_code}&dayCd=${dayCd}`, true);
+            xhttp.send();
+            console.log(operator, line_num)
+        }
+
+        function myFunction(xml) {
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = ("0" + (1 + date.getMonth())).slice(-2);
+            var day = ("0" + date.getDate()).slice(-2);
+            let today = year + month + day;
+            
+            var upperList = [];
+            var lowerList = [];
+            var upperTable = "<tr><th>열번</th><th>도착시각</th><th>출발시각</th><th>출발역</th><th>도착역</th></tr>";
+            var lowerTable = "<tr><th>열번</th><th>도착시각</th><th>출발시각</th><th>출발역</th><th>도착역</th></tr>";
+            var xmlDoc = xml.responseXML;
+            var x = xmlDoc.getElementsByTagName("item");
+
+            for (let i = 0; i < x.length; i++) {
+                let cnt = i;
+                var sendData = {orgStinCd: x[i].getElementsByTagName("orgStinCd")[0].childNodes[0].nodeValue, tmnStinCd: x[i].getElementsByTagName("tmnStinCd")[0].childNodes[0].nodeValue};
+                var ajaxData = {
+                    type: "GET",
+                    url: "getStationByFrcode",
+                    data: sendData,
+                    dataType: "json",
+                    success: function(data){
+                        if(x[i].getElementsByTagName("trnNo")[0].childNodes[0].nodeValue.charAt(x[i].getElementsByTagName("trnNo")[0].childNodes[0].nodeValue.length-1)*1 % 2 == 0){
+                            upperList.push([x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(0, 2) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(2, 4) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(4,6), x[i].getElementsByTagName("dptTm")[0].childNodes[0].nodeValue.slice(0, 2) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(2, 4) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(4,6), x[i].getElementsByTagName("trnNo")[0].childNodes[0].nodeValue, data.orgStinCd_name, data.tmnStinCd_name])
+                            upperTable += `<tr>
+                                <td><a href = "https://rail.blue/railroad/logis/Default.aspx?date=${today}&train=${x[i].getElementsByTagName("trnNo")[0].childNodes[0].nodeValue}" target = "popup" onclick = "javascript:void(0);" onclick = "window.open("https://rail.blue/railroad/logis/Default.aspx?date=20210825&train=${x[i].getElementsByTagName("trnNo")[0].childNodes[0].nodeValue}", "전철 상세 정보", 'width=300,height=250');">${x[i].getElementsByTagName("trnNo")[0].childNodes[0].nodeValue}</a></td>
+                                <td>${x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(0, 2) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(2, 4) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(4,6)}</td>
+                                <td>${x[i].getElementsByTagName("dptTm")[0].childNodes[0].nodeValue.slice(0, 2) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(2, 4) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(4,6)}</td>
+                                <td>${data.orgStinCd_name}</td>
+                                <td>${data.tmnStinCd_name}</td>
+                            </tr>`;
+                        }
+                        else{
+                            lowerList.push([x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(0, 2) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(2, 4) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(4,6), x[i].getElementsByTagName("dptTm")[0].childNodes[0].nodeValue.slice(0, 2) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(2, 4) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(4,6), x[i].getElementsByTagName("trnNo")[0].childNodes[0].nodeValue, data.orgStinCd_name, data.tmnStinCd_name])
+                            lowerTable += `<tr>
+                                <td><a href = "https://rail.blue/railroad/logis/Default.aspx?date=${today}&train=${x[i].getElementsByTagName("trnNo")[0].childNodes[0].nodeValue}" target = "popup" onclick = "javascript:void(0);" onclick = "window.open("https://rail.blue/railroad/logis/Default.aspx?date=20210825&train=${x[i].getElementsByTagName("trnNo")[0].childNodes[0].nodeValue}", "전철 상세 정보", 'width=300,height=250');">${x[i].getElementsByTagName("trnNo")[0].childNodes[0].nodeValue}</a></td>
+                                <td>${x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(0, 2) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(2, 4) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(4,6)}</td>
+                                <td>${x[i].getElementsByTagName("dptTm")[0].childNodes[0].nodeValue.slice(0, 2) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(2, 4) + ':' + x[i].getElementsByTagName("arvTm")[0].childNodes[0].nodeValue.slice(4,6)}</td>
+                                <td>${data.orgStinCd_name}</td>
+                                <td>${data.tmnStinCd_name}</td>
+                            </tr>`;
+                        }
+                    }
+                };  
+                $.ajax(ajaxData).then(function(){
+                    upperList.sort();
+                    document.getElementById("upper").innerHTML = upperTable;
+                    document.getElementById("lower").innerHTML = lowerTable;
+                });        
+                console.log(upperList, lowerList)
+            }
+            
+            // document.getElementById("upper").innerHTML = upperTable;
+            // document.getElementById("lower").innerHTML = lowerTable;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+        <title>수도권 전동차 정보</title>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity = "sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin = "anonymous">
+        <link href = "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel = "stylesheet" integrity = "sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin = "anonymous">
+        <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity = "sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin = "anonymous"></script>
+        <script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity = "sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin = "anonymous"></script>
+        <script src = "https://kit.fontawesome.com/06fb83cb17.js" crossorigin = "anonymous"></script>
+        <link rel = "preconnect" href = "https://fonts.gstatic.com">
+        <link href = "https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@800&display=swap" rel = "stylesheet">
+        <link rel = "stylesheet" href = "https://potato179.github.io/style/potato-min.css">
+        <style>
+            html, body{
+                height: 100%;
+            }
+            body{
+                font-family: 'Nanum Gothic', sans-serif;
+            }
+        </style>
+    </head>
+    <body onload = "logincookie()">
+        <nav class = "navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class = "container">
+                <img src = "./public/img/icon.png" width = "50px;">&nbsp;&nbsp;
+                <a class = "navbar-brand" href = "./index.html" style = "font-weight: bold;">짜장메트로</a>
+                <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target = "#navbarCollapse" aria-controls = "navbarCollapse" aria-expanded = "false">
+                <span class = "navbar-toggler-icon"></span>
+                </button>
+                <div class = "collapse navbar-collapse" id = "navbarCollapse">
+                    <ul class = "navbar-nav mr-auto">
+                        <li class = "nav-item active">
+                            <a class = "nav-link" href = "./index.html">홈<span class = "sr-only"></span></a>
+                        </li>
+                        <li class = "nav-item active">
+                            <a class = "nav-link" href = "./arrivals.html">실시간 도착정보<span class = "sr-only"></span></a>
+                        </li>
+                        <li class = "nav-item active">
+                            <a class = "nav-link" href = "./station.html?1270">역 정보<span class = "sr-only"></span></a>
+                        </li>
+                        <li class = "nav-item active">
+                            <a class = "nav-link" href = "./community.html">게시판<span class = "sr-only"></span></a>
+                        </li>
+                        <li class = "nav-item active">
+                            <a class = "nav-link" href = "./info.html">누리집 정보<span class = "sr-only"></span></a>
+                        </li>
+                        <li class = "nav-item dropdown">
+                            <a class = "nav-link dropdown-toggle" href = "#" id = "dropdown07XL" data-bs-toggle = "dropdown" aria-expanded = "false">자료실</a>
+                            <ul class = "dropdown-menu" aria-labelledby = "dropdown07XL">
+                                <li><a class = "dropdown-item" href = "./trainInfo.html#">전동차 정보</a></li>
+                                <li><a class = "dropdown-item" href = "#">가상 행선안내기</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <a style = "margin: 5px" class = "btn btn-outline-primary" id = "log_in_out" type = "button" onclick = 'window.location.href = "login.html"'>로그인</a>
+                    <a style = "margin: 5px" class = "btn btn-outline-primary" id = "btn_join" type = "button" onclick = 'window.location.href = "join.html"'>회원가입</a>
+                </div>
+            </div>
+        </nav>
+        <main class = "container center">
+            <br><br><br><br>
+            <h1>실시간 전철 운행 정보</h1>
+            <button class = "white" style = "background-color: #0052a4" onclick = "loadDoc('1호선')">1호선</button>
+            <button class = "white" style = "background-color: #00a84d" onclick = "loadDoc('2호선')">2호선</button>
+            <button class = "white" style = "background-color: #ef7c1c" onclick = "loadDoc('3호선')">3호선</button>
+            <button class = "white" style = "background-color: #00a4e3" onclick = "loadDoc('4호선')">4호선</button>
+            <button class = "white" style = "background-color: #996cac" onclick = "loadDoc('5호선')">5호선</button>
+            <button class = "white" style = "background-color: #cd7c2f" onclick = "loadDoc('6호선')">6호선</button>
+            <button class = "white" style = "background-color: #747f00" onclick = "loadDoc('7호선')">7호선</button>
+            <button class = "white" style = "background-color: #e6186c" onclick = "loadDoc('8호선')">8호선</button>
+            <button class = "white" style = "background-color: #bdb092" onclick = "loadDoc('9호선')">9호선</button>
+            <button class = "white" style = "background-color: #77c4a3" onclick = "loadDoc('경의중앙선')">경의중앙선</button>
+            <button class = "white" style = "background-color: #178c72" onclick = "loadDoc('경춘선')">경춘선</button>
+            <button class = "white" style = "background-color: #d4003b" onclick = "loadDoc('신분당선')">신분당선</button>
+            <button class = "white" style = "background-color: #0090d2" onclick = "loadDoc('공항철도')">공항철도</button>
+            <button class = "white" style = "background-color: #B7C450" onclick = "loadDoc('우이신설선')">우이신설경전철</button>
+            <br><br>
+            <table id = "demo" class = "center" style = "width: 100%">
+            </table>
+            <br><br><br>
+            <p>* 자료 제공: 서울시 교통정보과[TOPIS]</p>
+        </main>
+        
+        <script src = "../public/js/jquery.cookie.js"></script>
+        <script>
+            function logincookie() {
+                var userEmail = $.cookie("userEmail");
+                if (userEmail != '' && userEmail != null) {
+                    console.log("쿠키 존재: " + userEmail);
+                    $("#log_in_out").html("로그아웃");
+                    $("#log_in_out").attr("onclick", 'window.location.href = "logout"');
+                    var username = $.cookie("username");
+                    $("#btn_join").html(username + "님, 반갑습니다");
+                    var t = document.getElementById("btn_join");
+                    t.style.color = "red";
+                    $("#btn_join").attr("onclick", '');
+                }
+                else {
+                    console.log("쿠키가 존재하지 않습니다");
+
+                    $("#log_in_out").html("로그인");
+                    $("#log_in_out").attr("onclick", 'window.location.href = "login.html"');
+                }
+            }
+
+            var stations = [];
+            let lineNumber;
+            function loadDoc(lineno) {
+                console.log("새로고침 했습니다.");
+                getstations(lineno)
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        arrivals(lineno, this);
+                    }
+                };
+                xhttp.open("GET", `http://swopenapi.seoul.go.kr/api/subway/7141685873706f7434376d4f6d4e74/xml/realtimePosition/0/1000/${lineno}`, true);
+                xhttp.send();
+            }
+
+            function getstations(lineno) {
+                // 호선이 선택되면 역 목록 가져오기
+                var sendData = {lineno: lineno};
+                if(lineno === "우이신설선"){
+                    sendData = {lineno: "우이신설경전철"};
+                }
+                var ajaxData = {
+                    type: "GET",
+                    url: "getStations",
+                    data: sendData,
+                    dataType: "json",
+                    success: get_onSuccess,
+                    error: get_onError
+                };
+                $.ajax(ajaxData);
+                lineNumber = lineno;
+            }
+
+            function get_onSuccess(data, status, xhr) {
+                $('#demo').html("");
+
+                if (lineNumber === "1호선") {
+                    linecolor = "#0052A4";
+                }
+                else if (lineNumber === "2호선") {
+                    linecolor = "#00a84d";
+                }
+                else if (lineNumber === "3호선") {
+                    linecolor = "#ef7c1c";
+                }
+                else if (lineNumber === "4호선") {
+                    linecolor = "#00a4e3";
+                }
+                else if (lineNumber === "5호선") {
+                    linecolor = "#996cac";
+                }
+                else if (lineNumber === "6호선") {
+                    linecolor = "#cd7c2f";
+                }
+                else if (lineNumber === "7호선") {
+                    linecolor = "#747f00";
+                }
+                else if (lineNumber === "8호선") {
+                    linecolor = "#e6186c";
+                }
+                else if (lineNumber === "9호선") {
+                    linecolor = "#bdb092";
+                }
+                else if (lineNumber === "경의중앙선") {
+                    linecolor = "#77c4a3";
+                }
+                else if (lineNumber === "경춘선") {
+                    linecolor = "#178c72";
+                }
+                else if (lineNumber === "공항철도") {
+                    linecolor = "#0090d2";
+                }
+                else if (lineNumber === "신분당선") {
+                    linecolor = "#d4003b";
+                }
+                else if (lineNumber === "우이신설선") {
+                    linecolor = "#B7C450";
+                }
+
+                if(lineNumber === "2호선" || lineNumber === "공항철도"){
+                    $('#demo').append(`<tr><th style = "width: 40%;">하행 ▼</th><th style = "width: 20%;">${lineNumber}</th><th style = "width: 40%;">▲ 상행</th></tr>`);
+                }
+                else{
+                    $('#demo').append(`<tr><th style = "width: 40%;">▲ 상행</th><th style = "width: 20%;">${lineNumber}</th><th style = "width: 40%;">하행 ▼</th></tr>`);
+                }
+
+                for(var i = 0; i < data.stations.length; i++){
+                    console.log(data.stations[i].stationcd, data.stations[i].stationname)
+                    $('#demo').append(`<tr style = "height: 8em;"><td style = "border-bottom: dashed thin lightgray;" id = "${data.stations[i].stationname}U"></td><td class = "white" style = "background: ${linecolor}">${data.stations[i].stationname}</td><td style = "border-bottom: dashed thin lightgray;" id = "${data.stations[i].stationname}L"></td></tr>`);
+                    stations.push(data.stations[i].stationname)
+                }
+            }
+
+            function get_onError(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+            }
+
+            function arrivals(lineno, xml) {
+                let trainImg;
+                var xmlDoc = xml.responseXML;
+                var table = "";
+                var checkOverlap = [];
+                var x = xmlDoc.getElementsByTagName("row");
+                for (var i = 0; i < x.length; i++) {
+                    if(lineno === "1호선"){
+                        trainImg = "./public/img/trains/111_116.png";
+                    }
+                    if(lineno === "2호선"){
+                        trainImg = "./public/img/trains/214+232_238+256+273_284+293.png";
+                    }
+                    if(lineno === "3호선"){
+                        trainImg = "./public/img/trains/334_335+346_348.png";
+                    }
+                    if(lineno === "4호선"){
+                        trainImg = "./public/img/trains/401_426.png";
+                    }
+                    if(lineno === "5호선"){
+                        trainImg = "./public/img/trains/501_546.png";
+                    }
+                    if(lineno === "6호선"){
+                        trainImg = "./public/img/trains/601_641.png";
+                    }
+                    if(lineno === "7호선"){
+                        trainImg = "./public/img/trains/701_717.png";
+                    }
+                    if(lineno === "8호선"){
+                        trainImg = "./public/img/trains/801_815.png";
+                    }
+                    if(lineno === "9호선"){
+                        trainImg = "./public/img/trains/901_945.png";
+                    }
+                    if(lineno === "경의중앙선"){
+                        trainImg = "./public/img/trains/31183_31189+31192_31203+32119_32121+33101_33127.png";
+                    }
+                    if(lineno === "경춘선"){
+                        trainImg = "./public/img/trains/36101_36114.png";
+                    }
+                    if(lineno === "신분당선"){
+                        trainImg = "./public/img/trains/D001_D023.png";
+                    }
+                    if(lineno === "공항철도"){
+                        trainImg = "./public/img/trains/A201_A222.png";
+                    }
+                    if(lineno === "우이신설선"){
+                        trainImg = "./public/img/trains/UL001_UL018.png";
+                    }
+                    let arrived;
+                    let destination = x[i].getElementsByTagName("statnTnm")[0].childNodes[0].nodeValue + "행";
+                    if(lineno === "경춘선"){
+                        if(x[i].getElementsByTagName("trainNo")[0].childNodes[0].nodeValue.charAt(0) === "2"){
+                            if(x[i].getElementsByTagName("statnTnm")[0].childNodes[0].nodeValue === "1") destination = "용산행(ITX-청춘)";
+                            if(x[i].getElementsByTagName("statnTnm")[0].childNodes[0].nodeValue === "춘천") destination = "춘천행(ITX-청춘)";
+                            trainImg = "./public/img/trains/368000.png";
+                        }
+                    }
+                    if(x[i].getElementsByTagName("statnTnm")[0].childNodes[0].nodeValue === "53") destination = "석남행";
+                    if(x[i].getElementsByTagName("statnTnm")[0].childNodes[0].nodeValue === "65") destination = "하남검단산행";
+                    if(x[i].getElementsByTagName("statnTnm")[0].childNodes[0].nodeValue === "171") destination = "광운대행";
+                    if(x[i].getElementsByTagName("statnTnm")[0].childNodes[0].nodeValue === "성수종착") destination = "순환";
+                    if(x[i].getElementsByTagName("trainSttus")[0].childNodes[0].nodeValue === "0") arrived = "접근";
+                    else if(x[i].getElementsByTagName("trainSttus")[0].childNodes[0].nodeValue === "1") arrived = "도착";
+                    else arrived = "출발";
+                    if(checkOverlap.indexOf(x[i].getElementsByTagName("trainNo")[0].childNodes[0].nodeValue) < 0){
+                        if(x[i].getElementsByTagName("updnLine")[0].childNodes[0].nodeValue == 0){
+                            $(`#${x[i].getElementsByTagName("statnNm")[0].childNodes[0].nodeValue.split("(")[0]}U`).append(`<img src = "${trainImg}" style = "width: 3em;"><br>#${x[i].getElementsByTagName("trainNo")[0].childNodes[0].nodeValue} ${destination}<br>${x[i].getElementsByTagName("statnNm")[0].childNodes[0].nodeValue} ${arrived}<br>`)
+                        }
+                        else if(x[i].getElementsByTagName("updnLine")[0].childNodes[0].nodeValue == 1){
+                            $(`#${x[i].getElementsByTagName("statnNm")[0].childNodes[0].nodeValue.split("(")[0]}L`).append(`<img src = "${trainImg}" style = "width: 3em;"><br>#${x[i].getElementsByTagName("trainNo")[0].childNodes[0].nodeValue} ${destination}<br>${x[i].getElementsByTagName("statnNm")[0].childNodes[0].nodeValue} ${arrived}<br>`)
+                        }
+                    }
+                    checkOverlap.push(x[i].getElementsByTagName("trainNo")[0].childNodes[0].nodeValue);
+                }
+            }
+        </script>
+    </body>
+</html>

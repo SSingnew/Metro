@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+        <title>수도권 전동차 정보</title>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity = "sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin = "anonymous">
+        <link href = "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel = "stylesheet" integrity = "sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin = "anonymous">
+        <script src = "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity = "sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin = "anonymous"></script>
+        <script src = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity = "sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin = "anonymous"></script>
+        <script src = "https://kit.fontawesome.com/06fb83cb17.js" crossorigin = "anonymous"></script>
+        <link rel = "preconnect" href = "https://fonts.gstatic.com">
+        <link href = "https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@800&display=swap" rel = "stylesheet">
+        <link rel = "stylesheet" href = "https://potato179.github.io/style/potato-min.css">
+        <style>
+            body {
+                font-family: 'Nanum Gothic', sans-serif;
+                background-color: #F8F9FA;
+            }
+
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                user-select: none;
+            }
+
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                    font-size: 3.5rem;
+                }
+            }
+
+            .b-example-divider {
+                height: 3rem;
+                background-color: rgba(0, 0, 0, .1);
+                border: solid rgba(0, 0, 0, .15);
+                border-width: 1px 0;
+                box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+            }
+
+            @media (min-width: 992px) {
+                .rounded-lg-3 {
+                    border-radius: .3rem;
+                }
+            }
+        </style>
+    </head>
+    <body onload = "logincookie()">
+        <!--해더-->
+        <nav class = "navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class = "container">
+                <img src = "./public/img/icon.png" width = "50px;">&nbsp;&nbsp;
+                <a class = "navbar-brand" href = "./index.html" style = "font-weight: bold;"></a>
+                <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target = "#navbarCollapse" aria-controls = "navbarCollapse" aria-expanded = "false">
+                <span class = "navbar-toggler-icon"></span>
+                </button>
+                <div class = "collapse navbar-collapse" id = "navbarCollapse">
+                    <ul class = "navbar-nav mr-auto">
+                        <li class = "nav-item active">
+                            <a class = "nav-link" href = "./index.html">홈<span class = "sr-only"></span></a>
+                        </li>
+                        <li class = "nav-item active">
+                            <a class = "nav-link" href = "./arrivals.html">실시간 도착정보<span class = "sr-only"></span></a>
+                        </li>
+                        <li class = "nav-item active">
+                            <a class = "nav-link" href = "./station.html?1270">역 정보<span class = "sr-only"></span></a>
+                        </li>
+                        <li class = "nav-item active">
+                            <a class = "nav-link" href = "./community.html">게시판<span class = "sr-only"></span></a>
+                        </li>
+                        <li class = "nav-item active">
+                            <a class = "nav-link" href = "./info.html">누리집 정보<span class = "sr-only"></span></a>
+                        </li>
+                        <li class = "nav-item dropdown">
+                            <a class = "nav-link dropdown-toggle" href = "#" id = "dropdown07XL" data-bs-toggle = "dropdown" aria-expanded = "false">자료실</a>
+                            <ul class = "dropdown-menu" aria-labelledby = "dropdown07XL">
+                                <li><a class = "dropdown-item" href = "./trainInfo.html#">전동차 정보</a></li>
+                                <li><a class = "dropdown-item" href = "#">가상 행선안내기</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <a style = "margin: 5px " class = "btn btn-outline-primary" id = "log_in_out" type = "button" onclick = 'window.location.href = "login.html"'>로그인</a>
+                    <a style = "margin: 5px "class = "btn btn-outline-primary" id = "btn_join" type = "button" onclick = 'window.location.href = "join.html"'>회원가입</a>
+                </div>
+            </div>
+        </nav>
+        <div class = "bg-dark">
+            <br><br><br>
+            <div class = "center container">
+                <br><br>
+                <!--호선 선택-->
+                <form id = "search-form">
+                    <select onchange = "getstations(this.value)">
+                        <option value = "">호선을 선택하세요.</option>
+                        <option value = "1호선">1호선</option>
+                        <option value = "2호선">2호선</option>
+                        <option value = "3호선">3호선</option>
+                        <option value = "4호선">4호선</option>
+                        <option value = "5호선">5호선</option>
+                        <option value = "6호선">6호선</option>
+                        <option value = "7호선">7호선</option>
+                        <option value = "8호선">8호선</option>
+                        <option value = "9호선">9호선</option>
+                        <option value = "경의중앙선">경의중앙선</option>
+                        <option value = "경춘선">경춘선</option>
+                        <option value = "경강선">경강선</option>
+                        <option value = "수인분당선">수인분당선</option>
+                        <option value = "공항철도">공항철도</option>
+                        <option value = "신분당선">신분당선</option>
+                        <option value = "용인경전철">용인경전철</option>
+                        <option value = "의정부경전철">의정부경전철</option>
+                        <option value = "서해선">서해선</option>
+                        <option value = "우이신설경전철">우이신설경전철</option>
+                        <option value = "김포도시철도">김포도시철도</option>
+                        <option value = "인천1호선">인천1호선</option>
+                        <option value = "인천2호선">인천2호선</option>
+                        <option value = "신림선">신림선</option>
+                    </select>
+                    <!--역 이름 선택-->
+                    <select id = "selectStations">
+                        <option value = "">역을 선택하세요.</option>
+                    </select>
+                    <!--검색 버튼-->
+                    <button type = "button" onclick = "searchstation('')">이동</button>
+                </form><br><br>
+                <div style = "display: flex; justify-content: center; align-items: center;">
+                    <div id = "linecolor" style = "width: 100%; background-color: #77c4a3; border-radius: 2em; padding: 0.25em; padding-left: 1em; padding-right: 1em; position: relative;">
+                        <!--이전역-->
+                        <a id = "prev_stationname" href = "javascript:searchstation(-1)" class = "white left" style = "float: left; text-decoration:none;"></a>
+                        <!--다음역-->
+                        <a id = "next_stationname" href = "javascript:searchstation(1)" class = "white right" style = "float: right; text-decoration:none"></a><br>
+                        <div id = "branch_container"></div>
+                    </div>
+                    <div id = "linecolor-border" class = "center" style = "width: 50%; background-color: white; border: 0.25em solid #77c4a3; border-radius: 2.5em; padding: 0.25em; position: absolute; display: table-cell; vertical-align: middle; line-height: 0.1em;">
+                        <!--역 이름-->
+                        <h2 id = "title"></h2>
+                        <!--영어 역명-->
+                        <p id = "english"></p>
+                    </div>
+                </div><br><br>
+
+                <div style = "padding: 0.25em;">
+                    <!--역번호 | 운영기관-->
+                    <div id = "station_num" class = "white" style = "float: left">K</div>
+                    <!--환승노선-->
+                    <div id = "transfers" style = "float: right;">
+                    </div>
+                </div><br><br>
+            </div>
+        </div>
+        <div class = "center box-lightgray black">
+            <br><br>
+            <div class = "container">
+                <div class = "row row-cols-1 row-cols-md-2 g-2">
+                    <div class = "center col">
+                        <div class = "h-100 p-5 bg-light border rounded-3">
+                            <h2>실시간 도착정보</h2><br>
+                            <div class = "card" style = "width: 100%; text-align: left;">
+                                <div class = "card-header">상행</div>
+                                <ul class = "list-group list-group-flush">
+                                    <li class = "list-group-item">이번열차: <span class = "arrivalTxt blue" id = "UP1"></span> <span class = "arrivalTxt red" id = "UP_P1"></span></li>
+                                    <li class = "list-group-item">다음열차: <span class = "arrivalTxt blue" id = "UP2"></span> <span class = "arrivalTxt red" id = "UP_P2"></span></li>
+                                </ul>
+                            </div>
+                            <div class = "card" style = "width: 100%; text-align: left;">
+                                <div class = "card-header">하행</div>
+                                <ul class = "list-group list-group-flush">
+                                    <li class = "list-group-item">이번열차: <span class = "arrivalTxt blue" id = "LOW1"></span> <span class = "arrivalTxt red" id = "LOW_P1"></span></li>
+                                    <li class = "list-group-item">다음열차: <span class = "arrivalTxt blue" id = "LOW2"></span> <span class = "arrivalTxt red" id = "LOW_P2"></span></li>
+                                </ul>
+                            </div><br>
+                        </div>
+                    </div>
+                    <div class = "center col">
+                        <div class = "h-100 p-5 bg-light border rounded-3">
+                            <h2>역사 이용 정보</h2><br>
+                            <h5><i class = "fas fa-door-open"></i> <span id = "doors">내리는문: 오른쪽</span></h5>
+                            <h5><i class = "fas fa-walking"></i> <span id = "crossable">반대편 횡단 불가</span></h5>
+                            <h5><i class = "fas fa-restroom"></i> <span id = "restroom">화장실 개찰구 밖</span></h5><br>
+                            <button id = "showTimetable" onclick = "">전체 시간표</button>
+                            <button>첫막차 정보</button><br><br>
+                            <p>* 자료 제공: 서울시 교통정보과[TOPIS]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <button id = "basicInfoButton" class = "btn btn-light" onclick = "infoDisplay('basicInfo')" style = "border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; border-top-left-radius: 7px; border-top-right-radius: 7px;">기본 정보</button>
+            <button id = "exitInfoButton" class = "btn btn-secondary" onclick = "infoDisplay('exitInfo')" style = "border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; border-top-left-radius: 7px; border-top-right-radius: 7px;">주변 정보</button>
+        </div>
+        <div id = "basicInfo" class = "container px-4 py-3 my-5 text-center" style = "display: block;">
+            <h2>기본 정보</h2>
+            <table class = "table" style = "text-align: left;">
+                <tr>
+                    <th scope = "row" style = "background-color: lightgray; width: 25%;">역명</th>
+                    <td id = "stationname"></td>
+                </tr>
+                <tr>
+                    <th scope = "row" style = "background-color: lightgray; width: 25%;">외국어 표기</th>
+                    <td id = "foriegn"></td>
+                </tr>
+                <tr>
+                    <th scope = "row" style = "background-color: lightgray; width: 25%;">역번호</th>
+                    <td id = "fr_code"></td>
+                </tr>
+                <tr>
+                    <th scope = "row" style = "background-color: lightgray; width: 25%;">AFC 역코드</th>
+                    <td id = "station_cd"></td>
+                </tr>
+                <tr>
+                    <th scope = "row" style = "background-color: lightgray; width: 25%;">역사 이용 정보</th>
+                    <td id = "stationInfo"></td>
+                </tr>
+                <tr>
+                    <th scope = "row" style = "background-color: lightgray; width: 25%;">편의시설 정보</th>
+                    <td id = "facilities"></td>
+                </tr>
+                <tr>
+                    <th scope = "row" style = "background-color: lightgray; width: 25%;">역 주소</th>
+                    <td id = "address"></td>
+                </tr>
+                <tr>
+                    <th scope = "row" style = "background-color: lightgray; width: 25%;">역 위도/경도</th>
+                    <td id = "cxy"></td>
+                </tr>
+                <tr>
+                    <th scope = "row" style = "background-color: lightgray; width: 25%;">전화번호</th>
+                    <td id = "telno"></td>
+                </tr>
+                <tr>
+                    <th scope = "row" style = "background-color: lightgray; width: 25%;">역명 유래</th>
+                    <td id = "origin"></td>
+                </tr>
+            </table>
+            <h4>역 이용 안내도</h4>
+            <div id = "stationmap" class = "well"></div>
+        </div>
+        <div id = "exitInfo" class = "container px-4 py-3 my-5 text-center" style = "display: none;">
+            <h2>주변 정보</h2>
+            <div id = "kakaoMap" style = "width:100%;height:350px;"></div>
+            <div style = "width: 100%; text-align: left; margin: 0.25em;">
+                <button id = "googleMap" onclick = "">구글지도</button>
+                <button id = "naverMap" onclick = "">네이버지도</button>
+            </div>
+            <p id = "exitinfo" style = "width: 100%; text-align: left; margin: 0.25em;">1번 출구: </p>
+        </div>
+        <div class = "b-example-divider" style = "height: 2em;"></div>
+        <script src = "../public/js/jquery.cookie.js"></script>
+        <script type = "text/javascript" src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=7f26ddb0373cd3b598ff54652cbbdc24"></script>
+        <script>
+            function logincookie() {
+                var userEmail = $.cookie("userEmail");
+                if (userEmail != '' && userEmail != null) {
+                    console.log("쿠키 존재: " + userEmail);
+                    $("#log_in_out").html("로그아웃");
+                    $("#log_in_out").attr("onclick", 'window.location.href = "logout"');
+                    var username = $.cookie("username");
+                    $("#btn_join").html(username + "님, 반갑습니다");
+                    var t = document.getElementById("btn_join");
+                    t.style.color = "red";
+                    $("#btn_join").attr("onclick", '');
+                }
+                else {
+                    console.log("쿠키가 존재하지 않습니다");
+                    $("#log_in_out").html("로그인");
+                    $("#log_in_out").attr("onclick", 'window.location.href = "login.html"');
+                }
+            }
+
+            data = location.href.split("?")[1];
+            searchstation(data);
+            let prev_code;
+            let next_code;
+            let stations;
+
+            function getstations(lineno) {
+                // 호선이 선택되면 역 목록 가져오기
+                var sendData = {lineno: lineno};
+                var ajaxData = {
+                    type: "GET",
+                    url: "getStations",
+                    data: sendData,
+                    dataType: "json",
+                    success: get_onSuccess,
+                    error: get_onError
+                };
+                $.ajax(ajaxData);
+            }
+
+            function get_onSuccess(data, status, xhr) {
+                stations = [];
+                $('#selectStations').children("option").remove();
+                for(var i = 0; i < data.stations.length; i++){
+                    stations.push({"stationname": data.stations[i].stationname, "upperNo": "", "upperFor": "", "lowerNo": "", "lowerFor": "",})
+                    $('#selectStations').append(`<option value = "${data.stations[i].stationcd}">${data.stations[i].stationname}</option>`);
+                }
+            }
+
+            function get_onError(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+            }
+
+            function searchstation(search_stationcd) {
+                if (search_stationcd == -1) {
+                    var searchtext = prev_code;
+                }
+                else if (search_stationcd == 1) {
+                    var searchtext = next_code;
+                }
+                else if(search_stationcd == "") {
+                    var searchtext = $('#selectStations option:selected').val();
+                }
+                else{
+                    var searchtext = search_stationcd
+                }
+
+                var sendData = { searchtext: searchtext };
+                var ajaxData = {
+                    type: "GET",
+                    url: "getstationinfo",
+                    data: sendData,
+                    dataType: "json",
+                    success: search_onSuccess,
+                    error: search_onError
+                };
+                $.ajax(ajaxData);
+            }
+
+            function search_onSuccess(data, status, xhr) {
+                $("#next_stationname_branch").remove();
+                $("#prev_stationname_branch").remove();
+                if(data.station_cd === 1701){
+                    $("#branch_container").append(`<a id = "next_stationname_branch" href = "javascript:searchstation('1702')" class = "white right" style = "float: right; text-decoration:none">가산디지털단지</a>`);
+                }
+                if(data.station_cd === 1703){
+                    $("#branch_container").append(`<a id = "next_stationname_branch" href = "javascript:searchstation('1750')" class = "white right" style = "float: right; text-decoration:none">광명</a>`);
+                }
+                if(data.station_cd === 1716){
+                    $("#branch_container").append(`<a id = "next_stationname_branch" href = "javascript:searchstation('1749')" class = "white right" style = "float: right; text-decoration:none">서동탄</a>`);
+                }
+                if(data.station_cd === 211){
+                    $("#branch_container").append(`<a id = "next_stationname_branch" href = "javascript:searchstation('244')" class = "white right" style = "float: right; text-decoration:none">용답</a>`);
+                }
+                if(data.station_cd === 234){
+                    $("#branch_container").append(`<a id = "next_stationname_branch" href = "javascript:searchstation('247')" class = "white right" style = "float: right; text-decoration:none">도림천</a>`);
+                }
+                if(data.station_cd === 2549){
+                    $("#branch_container").append(`<a id = "next_stationname_branch" href = "javascript:searchstation('2555')" class = "white right" style = "float: right; text-decoration:none">둔촌동</a>`);
+                }
+                if(data.station_cd === 1265){
+                    $("#branch_container").append(`<a id = "next_stationname_branch" href = "javascript:searchstation('1264')" class = "white right" style = "float: right; text-decoration:none">홍대입구</a>`);
+                }
+                if(data.station_cd === 1309){
+                    $("#branch_container").append(`<a id = "prev_stationname_branch" href = "javascript:searchstation('1305')" class = "white left" style = "float: left; text-decoration:none">광운대</a>`);
+                }
+
+                if (data.line_num === "1호선") {
+                    $("#linecolor").css("background-color", "#0052a4");
+                    $("#linecolor-border").css("border", "0.25em solid #0052a4");
+                }
+                else if (data.line_num === "2호선") {
+                    $("#linecolor").css("background-color", "#00a84d");
+                    $("#linecolor-border").css("border", "0.25em solid #00a84d");
+                }
+                else if (data.line_num === "3호선") {
+                    $("#linecolor").css("background-color", "#ef7c1c");
+                    $("#linecolor-border").css("border", "0.25em solid #ef7c1c");
+                }
+                else if (data.line_num === "4호선") {
+                    $("#linecolor").css("background-color", "#00a4e3");
+                    $("#linecolor-border").css("border", "0.25em solid #00a4e3");
+                }
+                else if (data.line_num === "5호선") {
+                    $("#linecolor").css("background-color", "#996cac");
+                    $("#linecolor-border").css("border", "0.25em solid #996cac");
+                }
+                else if (data.line_num === "6호선") {
+                    $("#linecolor").css("background-color", "#cd7c2f");
+                    $("#linecolor-border").css("border", "0.25em solid #cd7c2f");
+                }
+                else if (data.line_num === "7호선") {
+                    $("#linecolor").css("background-color", "#747f00");
+                    $("#linecolor-border").css("border", "0.25em solid #747f00");
+                }
+                else if (data.line_num === "8호선") {
+                    $("#linecolor").css("background-color", "#e6186c");
+                    $("#linecolor-border").css("border", "0.25em solid #e6186c");
+                }
+                else if (data.line_num === "9호선") {
+                    $("#linecolor").css("background-color", "#bdb092");
+                    $("#linecolor-border").css("border", "0.25em solid #bdb092");
+                }
+                else if (data.line_num === "경의중앙선") {
+                    $("#linecolor").css("background-color", "#77c4a3");
+                    $("#linecolor-border").css("border", "0.25em solid #77c4a3");
+                }
+                else if (data.line_num === "경강선") {
+                    $("#linecolor").css("background-color", "#005bac");
+                    $("#linecolor-border").css("border", "0.25em solid #005bac");
+                }
+                else if (data.line_num === "경춘선") {
+                    $("#linecolor").css("background-color", "#178c72");
+                    $("#linecolor-border").css("border", "0.25em solid #178c72");
+                }
+                else if (data.line_num === "공항철도") {
+                    $("#linecolor").css("background-color", "#0090d2");
+                    $("#linecolor-border").css("border", "0.25em solid #0090d2");
+                }
+                else if (data.line_num === "서해선") {
+                    $("#linecolor").css("background-color", "#8fc31f");
+                    $("#linecolor-border").css("border", "0.25em solid #8fc31f");
+                }
+                else if (data.line_num === "수인분당선") {
+                    $("#linecolor").css("background-color", "#fabe00");
+                    $("#linecolor-border").css("border", "0.25em solid #fabe00");
+                }
+                else if (data.line_num === "신분당선") {
+                    $("#linecolor").css("background-color", "#d4003b");
+                    $("#linecolor-border").css("border", "0.25em solid #d4003b");
+                }
+                else if (data.line_num === "김포도시철도") {
+                    $("#linecolor").css("background-color", "#ad8605");
+                    $("#linecolor-border").css("border", "0.25em solid #ad8605");
+                }
+                else if (data.line_num === "용인경전철") {
+                    $("#linecolor").css("background-color", "#56ab2d");
+                    $("#linecolor-border").css("border", "0.25em solid #56ab2d");
+                }
+                else if (data.line_num === "우이신설경전철") {
+                    $("#linecolor").css("background-color", "#B7C450");
+                    $("#linecolor-border").css("border", "0.25em solid #B7C450");
+                }
+                else if (data.line_num === "의정부경전철") {
+                    $("#linecolor").css("background-color", "#fb8100");
+                    $("#linecolor-border").css("border", "0.25em solid #fb8100");
+                }
+                else if (data.line_num === "인천1호선") {
+                    $("#linecolor").css("background-color", "#759cce");
+                    $("#linecolor-border").css("border", "0.25em solid #759cce");
+                }
+                else if (data.line_num === "인천2호선") {
+                    $("#linecolor").css("background-color", "#f5a251");
+                    $("#linecolor-border").css("border", "0.25em solid #f5a251");
+                }
+                else if (data.line_num === "신림선") {
+                    $("#linecolor").css("background-color", "#6789ca");
+                    $("#linecolor-border").css("border", "0.25em solid #6789ca");
+                }
+                prev_code = data.prev_code;
+                next_code = data.next_code;
+                $("#title").html(data.station_nm);
+                $("#stationname").html(data.station_nm);
+                $("#prev_stationname").html(data.prev_name);
+                $("#next_stationname").html(data.next_name);
+                $("#station_num").html(`${data.fr_code} | ${data.operator}`);
+                $("#fr_code").html(data.fr_code);
+                $("#english").html(data.english);
+                $("#foriegn").html(`${data.english} | ${data.japanese} | ${data.chinese}`);
+                $("#station_cd").html(data.station_cd);
+                $("#doors").html(`내리는문: ${(data.doors == "R") ? "오른쪽" : "왼쪽"}`);
+                $("#crossable").html(`반대편 횡단 ${(data.crossable == "Y") ? "가능" : "불가"}`);
+                $("#restroom").html(`화장실 개찰구 ${(data.restroom == "Y") ? "안" : "밖"}`);
+                $("#stationInfo").html(`내리는문: ${(data.doors == "R") ? "오른쪽" : "왼쪽"} | 반대편 횡단 ${(data.crossable == "Y") ? "가능" : "불가"} | 화장실 개찰구 ${(data.restroom == "Y") ? "안" : "밖"}`);
+                $("#facilities").html(`${(data.wheelchair_charge == "Y") ? "전동휠체어충전기" : ""} ${(data.lost_found == "Y") ? "유실물센터" : ""} ${(data.parking == "Y") ? "주차장" : ""} ${(data.bicycle == "Y") ? "자전거보관소" : ""} ${(data.document == "Y") ? "민원발급기" : ""} ${(data.atm == "Y") ? "ATM" : ""} ${(data.train_ticket == "Y") ? "기차표발권" : ""} ${(data.lounge == "Y") ? "문화공간&만남의장소" : ""} ${(data.nursing_room == "Y") ? "수유실" : ""} ${(data.camera == "Y") ? "즉석사진기" : ""} ${(data.phone_charge == "Y") ? "휴대폰충전기" : ""} ${(data.locker == "Y") ? "물품보관함" : ""}`);
+                $("#address").html(data.address);
+                $("#cxy").html(`위도: ${data.cx}, 경도: ${data.cy}`);
+                $("#telno").html(data.telno);
+                $("#origin").html(data.origin);
+                $("#showTimetable").attr("onclick", `window.open("/timetable.html?${data.fr_code}/${data.operator}/${data.line_num}", "", "width = 800, height = 600")`);
+                loadDoc(data.line_num, data.station_nm);
+                
+                function loadDoc(lineno, stationName) {
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            arrivals(lineno, stationName, this);
+                        }
+                    };
+                    if(stationName === "평택지제"){
+                        stationName = "지제";
+                    }
+                    if(stationName === "신촌"){
+                        stationName = "신촌(경의.중앙선)";
+                    }
+                    if(stationName === "2신촌"){
+                        stationName = "신촌";
+                    }
+                    if(stationName === "응암"){
+                        stationName = "응암순환(상선)";
+                    }
+                    if(stationName === "공릉"){
+                        stationName = "공릉(서울산업대입구)";
+                    }
+                    if(stationName === "남한산성입구"){
+                        stationName = "남한산성입구(성남법원, 검찰청)";
+                    }
+                    if(stationName === "대모산입구"){
+                        stationName = "대모산";
+                    }
+                    if(stationName === "천호"){
+                        stationName = "천호(풍납토성)";
+                    }
+                    if(stationName === "몽촌토성"){
+                        stationName = "몽촌토성(평화의문)";
+                    }
+                    xhttp.open("GET", `http://swopenapi.seoul.go.kr/api/subway/7141685873706f7434376d4f6d4e74/xml/realtimeStationArrival/0/999/${stationName}`, true);
+                    xhttp.send();
+                }
+
+                function arrivals(lineno, stationName, xml){
+                    let lineId;
+                    if(lineno === "1호선") lineid = "1001";
+                    else if(lineno === "2호선") lineid = "1002";
+                    else if(lineno === "3호선") lineid = "1003";
+                    else if(lineno === "4호선") lineid = "1004";
+                    else if(lineno === "5호선") lineid = "1005";
+                    else if(lineno === "6호선") lineid = "1006";
+                    else if(lineno === "7호선") lineid = "1007";
+                    else if(lineno === "8호선") lineid = "1008";
+                    else if(lineno === "9호선") lineid = "1009";
+                    else if(lineno === "경의중앙선") lineid = "1063";
+                    else if(lineno === "공항철도") lineid = "1065";
+                    else if(lineno === "경춘선") lineid = "1067";
+                    else if(lineno === "수인분당선") lineid = "1075";
+                    else if(lineno === "신분당선") lineid = "1077";
+                    else if(lineno === "우이신설경전철") lineid = "1092";
+                    
+                    var xmlDoc = xml.responseXML;
+                    var table = "";
+                    var x = xmlDoc.getElementsByTagName("row");
+                    var upCnt = 0;    
+                    var lowCnt = 0;
+                    $(".arrivalTxt").html("");
+                    for (var i = 0; i < x.length; i++) { 
+                        if(x[i].getElementsByTagName("subwayId")[0].childNodes[0].nodeValue === lineid){
+                            console.log(upCnt, lowCnt)
+                            if(x[i].getElementsByTagName("updnLine")[0].childNodes[0].nodeValue === "상행" || x[i].getElementsByTagName("updnLine")[0].childNodes[0].nodeValue === "내선"){
+                                upCnt += 1;
+                                $(`#UP${upCnt}`).html(x[i].getElementsByTagName("trainLineNm")[0].childNodes[0].nodeValue.split("-")[0]);
+                                $(`#UP_P${upCnt}`).html(x[i].getElementsByTagName("arvlMsg2")[0].childNodes[0].nodeValue)
+                            }
+                            if(x[i].getElementsByTagName("updnLine")[0].childNodes[0].nodeValue === "하행" || x[i].getElementsByTagName("updnLine")[0].childNodes[0].nodeValue === "외선"){
+                                lowCnt += 1;
+                                $(`#LOW${lowCnt}`).html(x[i].getElementsByTagName("trainLineNm")[0].childNodes[0].nodeValue.split("-")[0]);
+                                $(`#LOW_P${lowCnt}`).html(x[i].getElementsByTagName("arvlMsg2")[0].childNodes[0].nodeValue)
+                            }
+                        }
+                    }               
+                }
+
+                $("#transfers").html("");
+                if(data.transfer){
+                    let linecolor;
+                    var transfer = data.transfer;
+                    var i = 0;
+                    try{
+                        var jbSplit = transfer.split('X');
+                    }
+                    catch(error){
+                        var jbSplit = [transfer.toString()];
+                    }
+                    for(i in jbSplit){  
+                        var sendData = {searchtext: jbSplit[i]};
+                        var ajaxData = {
+                            type: "GET",
+                            url: "getstationinfo",
+                            data: sendData,
+                            dataType: "json",
+                            success: getTransferLineNo,
+                            error: search_onError
+                        };
+                        $.ajax(ajaxData);
+                        function getTransferLineNo(transferData, status, xhr){
+                            console.log(transferData);
+                            if (transferData.line_num === "1호선") {
+                                linecolor = "#0052A4";
+                            }
+                            else if (transferData.line_num === "2호선") {
+                                linecolor = "#00a84d";
+                            }
+                            else if (transferData.line_num === "3호선") {
+                                linecolor = "#ef7c1c";
+                            }
+                            else if (transferData.line_num === "4호선") {
+                                linecolor = "#00a4e3";
+                            }
+                            else if (transferData.line_num === "5호선") {
+                                linecolor = "#996cac";
+                            }
+                            else if (transferData.line_num === "6호선") {
+                                linecolor = "#cd7c2f";
+                            }
+                            else if (transferData.line_num === "7호선") {
+                                linecolor = "#747f00";
+                            }
+                            else if (transferData.line_num === "8호선") {
+                                linecolor = "#e6186c";
+                            }
+                            else if (transferData.line_num === "9호선") {
+                                linecolor = "#bdb092";
+                            }
+                            else if (transferData.line_num === "경의중앙선") {
+                                linecolor = "#77c4a3";
+                            }
+                            else if (transferData.line_num === "경강선") {
+                                linecolor = "#005bac";
+                            }
+                            else if (transferData.line_num === "경춘선") {
+                                linecolor = "#178c72";
+                            }
+                            else if (transferData.line_num === "공항철도") {
+                                linecolor = "#0090d2";
+                            }
+                            else if (transferData.line_num === "서해선") {
+                                linecolor = "#8fc31f";
+                            }
+                            else if (transferData.line_num === "수인분당선") {
+                                linecolor = "#fabe00";
+                            }
+                            else if (transferData.line_num === "신분당선") {
+                                linecolor = "#d4003b";
+                            }
+                            else if (transferData.line_num === "김포도시철도") {
+                                linecolor = "#ad8605";
+                            }
+                            else if (transferData.line_num === "용인경전철") {
+                                linecolor = "#56ab2d";
+                            }
+                            else if (transferData.line_num === "우이신설경전철") {
+                                linecolor = "#B7C450";
+                            }
+                            else if (transferData.line_num === "의정부경전철") {
+                                linecolor = "#fb8100";
+                            }
+                            else if (transferData.line_num === "인천1호선") {
+                                linecolor = "#759cce";
+                            }
+                            else if (transferData.line_num === "인천2호선") {
+                                linecolor = "#f5a251";
+                            }
+                            else if (transferData.line_num === "신림선") {
+                                linecolor = "#6789ca";
+                            }
+                            $("#transfers").append(`<button class = "white" style = "background-color: ${linecolor}" onclick = "searchstation('${transferData.station_cd}')">${transferData.line_num} 환승</button>`);
+                        }
+                    }   
+                }
+
+                var mapContainer = document.getElementById("kakaoMap"),
+                mapOption = {
+                    center: new kakao.maps.LatLng(data.cx, data.cy),
+                    level: 3
+                };
+                var map = new kakao.maps.Map(mapContainer, mapOption);
+                $("#googleMap").attr("onclick", `window.open("https://www.google.com/maps/@${data.cx},${data.cy},17.5z")`);
+                $("#naverMap").attr("onclick", `window.open("https://map.naver.com/?mapMode=0&lat=${data.cx}&lng=${data.cy}")`);
+
+                $("#exitinfo").html(data.exitinfo);
+                $("#stationmap").html(`<img src = "./public/img/stationmap/${data.station_cd}.png" alt = "역 이용 안내도가 없습니다." style = "width: 100%;">`);
+            }
+
+            function search_onError(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+            }
+            
+            function infoDisplay(info) {
+                console.log(info)
+                $("#basicInfo").css("display", 'none');
+                $("#exitInfo").css("display", 'none');
+                $("#basicInfoButton").attr("class", "btn btn-secondary");
+                $("#exitInfoButton").attr("class", "btn btn-secondary");
+                $(`#${info}`).css("display", "block");
+                $(`#${info}Button`).attr("class", "btn btn-light");
+            }
+        </script>
+    </body>
+</html>
